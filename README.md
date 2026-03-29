@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend - Aero Services 🎨
 
-## Getting Started
+Next.js frontend for the Aero Services platform (aviation staff, payroll, and training management).
 
-First, run the development server:
+## 📌 Overview
+
+This app is built with Next.js App Router and TypeScript. It currently starts from the default starter UI and is ready to be extended with your product pages, API integrations, and role-based dashboards.
+
+## 🛠️ Tech Stack
+
+- Next.js `16`
+- React `19`
+- TypeScript
+- Tailwind CSS `4` (via PostCSS)
+- ESLint `9`
+
+## ✅ Prerequisites
+
+- Node.js `18+` (Node.js `20+` recommended)
+- One package manager: `pnpm`
+
+## ⚡ Getting Started
+
+1. Go to the frontend folder:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run the development server:
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Open `http://localhost:3000`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🔁 Alternative Commands
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# npm
+npm install
+npm run dev
 
-## Deploy on Vercel
+# yarn
+yarn
+yarn dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📜 Available Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `pnpm dev` - Run the app in development mode.
+- `pnpm build` - Build the app for production.
+- `pnpm start` - Start the production server (after `build`).
+- `pnpm lint` - Run ESLint.
+
+## 🔐 Environment Variables
+
+Create `frontend/.env.local` for local environment configuration.
+
+Example:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+```
+
+Notes:
+
+- Use the `NEXT_PUBLIC_` prefix for variables that must be exposed to the browser.
+- Keep secrets out of client-side variables.
+
+## 🗂️ Project Structure
+
+```text
+frontend/
+|- app/
+|  |- globals.css
+|  |- layout.tsx
+|  `- page.tsx
+|- public/
+|- lib/
+|- style/
+|- eslint.config.mjs
+|- next.config.ts
+|- postcss.config.mjs
+`- tsconfig.json
+```
+
+## 🧭 Next Steps
+
+- Replace starter homepage content in `app/page.tsx`.
+- Update metadata in `app/layout.tsx`.
+- Add feature modules (auth, staff profiles, payroll, training).
+- Connect frontend to backend APIs.
+
+## 🚀 Deployment
+
+Recommended platform: Vercel.
+
+General flow:
+
+1. Push repository to GitHub.
+2. Import the project in Vercel.
+3. Set required environment variables.
+4. Deploy.
+
+## 🤝 Contributing
+
+1. Create a new branch: `git checkout -b feature/your-feature`
+2. Commit changes: `git commit -m "Add your feature"`
+3. Push branch: `git push origin feature/your-feature`
+4. Open a pull request.
