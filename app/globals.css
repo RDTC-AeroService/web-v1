@@ -1,26 +1,359 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #eef3f9;
+  --foreground: #0b1f2f;
+  --surface: #ffffff;
+  --line: #b8c8dc;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --ink: #10243a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-sora);
+  --font-mono: var(--font-space-mono);
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(
+      circle at 12% 20%,
+      rgba(37, 99, 235, 0.18),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 84% 16%,
+      rgba(14, 116, 144, 0.2),
+      transparent 30%
+    ),
+    linear-gradient(180deg, #f8fbff 0%, #e9f0f8 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sora), "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+
+.runway-page {
+  position: relative;
+  overflow: hidden;
+}
+
+.runway-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(6, 18, 33, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 18, 33, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: radial-gradient(circle at center, black 52%, transparent 97%);
+}
+
+.runway-glow {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 9999px;
+  filter: blur(48px);
+  opacity: 0.7;
+  animation: runwayFloat 9s ease-in-out infinite;
+}
+
+.runway-glow-left {
+  left: -8rem;
+  top: 6rem;
+  background: rgba(37, 99, 235, 0.32);
+}
+
+.runway-glow-right {
+  right: -9rem;
+  top: 12rem;
+  background: rgba(14, 116, 144, 0.3);
+  animation-delay: 2.1s;
+}
+
+.runway-code {
+  font-family: var(--font-space-mono), "Consolas", monospace;
+}
+
+.runway-chip {
+  border: 1px solid rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.runway-btn-primary {
+  background: linear-gradient(130deg, var(--accent), var(--accent-strong));
+  color: #fff;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.runway-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 26px -16px rgba(29, 78, 216, 0.72);
+}
+
+.runway-btn-secondary {
+  border: 1px solid rgba(11, 31, 47, 0.2);
+  background: rgba(255, 255, 255, 0.75);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.runway-btn-secondary:hover {
+  border-color: rgba(37, 99, 235, 0.52);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-3px);
+}
+
+.runway-panel {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(184, 200, 220, 0.85);
+  box-shadow: 0 28px 40px -34px rgba(16, 36, 58, 0.52);
+  backdrop-filter: blur(9px);
+}
+
+.runway-stat {
+  border: 1px solid rgba(16, 36, 58, 0.1);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.runway-feature {
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.82),
+    rgba(255, 255, 255, 0.58)
+  );
+}
+
+.runway-path-wrap {
+  border: 1px dashed rgba(16, 36, 58, 0.22);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.56);
+  padding: 0.4rem 0.6rem;
+}
+
+.runway-path {
+  fill: none;
+  stroke: rgba(16, 36, 58, 0.28);
+  stroke-width: 2.2;
+  stroke-dasharray: 7 9;
+}
+
+.runway-plane {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 7px rgba(37, 99, 235, 0.72));
+}
+
+.runway-loader {
+  position: relative;
+  background:
+    radial-gradient(circle at 24% 16%, rgba(37, 99, 235, 0.2), transparent 32%),
+    radial-gradient(
+      circle at 80% 86%,
+      rgba(14, 116, 144, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(180deg, #f8fbff 0%, #e9f0f8 100%);
+}
+
+.runway-loading-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(248, 251, 255, 0.2) 0%,
+    rgba(248, 251, 255, 0.62) 100%
+  );
+}
+
+.runway-progress-track {
+  height: 0.95rem;
+  width: 100%;
+  border-radius: 9999px;
+  border: 1px solid rgba(16, 36, 58, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+
+.runway-progress-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+  transform-origin: left center;
+  animation: runwayProgress 10s linear forwards;
+}
+
+.auth-page {
+  background:
+    radial-gradient(
+      circle at 18% 14%,
+      rgba(37, 99, 235, 0.18),
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 90% 84%,
+      rgba(14, 116, 144, 0.16),
+      transparent 34%
+    ),
+    linear-gradient(180deg, #f7faff 0%, #eaf1fb 100%);
+}
+
+.auth-shell {
+  box-shadow: 0 36px 62px -42px rgba(10, 30, 60, 0.55);
+}
+
+.auth-brand-panel {
+  background: linear-gradient(150deg, #1e40af 0%, #1d4ed8 42%, #0e7490 100%);
+}
+
+.auth-grid-overlay {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(circle at center, black 38%, transparent 100%);
+}
+
+.auth-form-wrap {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.86),
+    rgba(255, 255, 255, 0.74)
+  );
+}
+
+.auth-input {
+  width: 100%;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(16, 36, 58, 0.18);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  padding: 0.68rem 0.85rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.auth-input::placeholder {
+  color: rgba(11, 31, 47, 0.45);
+}
+
+.auth-input:focus {
+  border-color: rgba(37, 99, 235, 0.72);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.auth-rise {
+  animation: authRise 0.85s ease-out both;
+}
+
+.auth-fade-in {
+  animation: authFade 0.9s ease-out both;
+  animation-delay: 0.12s;
+}
+
+.auth-orb {
+  position: absolute;
+  width: 17rem;
+  height: 17rem;
+  border-radius: 9999px;
+  filter: blur(54px);
+  opacity: 0.52;
+  animation: authDrift 10s ease-in-out infinite;
+}
+
+.auth-orb-left {
+  left: -6rem;
+  top: 1rem;
+  background: rgba(37, 99, 235, 0.38);
+}
+
+.auth-orb-right {
+  right: -7rem;
+  bottom: 1.5rem;
+  background: rgba(14, 116, 144, 0.32);
+  animation-delay: 2.3s;
+}
+
+.runway-fade-up {
+  opacity: 0;
+  animation: runwayReveal 0.8s ease-out forwards;
+}
+
+@keyframes runwayReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes runwayFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-16px) scale(1.05);
+  }
+}
+
+@keyframes runwayProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes authRise {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes authFade {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes authDrift {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(1.05);
+  }
+}
+
+@media (max-width: 640px) {
+  .runway-glow {
+    width: 14rem;
+    height: 14rem;
+    filter: blur(36px);
+  }
 }
