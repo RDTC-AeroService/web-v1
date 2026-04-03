@@ -39,7 +39,7 @@ pnpm install
 pnpm dev
 ```
 
-4. Open `http://localhost:3000`.
+4. Open `http://localhost:3001`.
 
 ### 🔁 Alternative Commands
 
