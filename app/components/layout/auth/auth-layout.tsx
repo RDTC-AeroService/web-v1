@@ -14,10 +14,10 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <section className="auth-shell auth-rise mx-auto grid max-w-6xl h-full overflow-hidden rounded-3xl border border-(--line)/80 bg-white/70 backdrop-blur-xl lg:grid-cols-[1.05fr_0.95fr]">
         <aside className="auth-brand-panel relative px-6 py-8 sm:px-10 sm:py-10">
           <div className="auth-grid-overlay pointer-events-none absolute inset-0" />
-          <div className="w-10 h-5 scale-500 ml-10 relative z-10 lg:hidden">
+          <div className="w-10 h-5 scale-300 ml-10 relative z-10 lg:hidden">
             <img
               src="/RDTC.png"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               alt="Aero Service Logo"
             />
           </div>
@@ -34,7 +34,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                 width={130}
                 height={130}
                 priority
-                className="h-16 w-auto sm:h-20"
+                className="h-16 w-auto sm:h-20 scale-130"
               />
 
               <h1 className="runway-code text-3xl leading-tight pr-10 font-bold text-white sm:text-4xl lg:text-5xl">
@@ -55,4 +55,4 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       </section>
     </main>
   );
-}
+};
