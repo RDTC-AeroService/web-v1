@@ -36,7 +36,7 @@ export default function BottomBar() {
       aria-label="Mobile navigation"
       className="fixed inset-x-0 bottom-0 z-50 border-t border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(240,246,253,0.98))] px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_36px_-28px_rgba(16,36,58,0.55)] backdrop-blur-xl lg:hidden"
     >
-      <div className="mx-auto flex w-full max-w-screen-md items-stretch gap-2 overflow-x-auto rounded-[1.5rem] border border-white/80 bg-white/75 p-2">
+      <div className="mx-auto flex w-full max-w-3xl items-stretch gap-2 overflow-x-auto rounded-3xl border border-white/80 bg-white/75 p-2">
         {menuItems.map((item) => {
           const isActive = pathname === item.path;
 
