@@ -1,4 +1,4 @@
-import AuthLayout from "../../components/layout/auth/auth-layout";
+import AuthLayout from "../../components/layout/auth/layout";
 import LoginUI from "../../components/ui/auth/login-ui";
 
 export default function AuthPage() {

@@ -31,10 +31,10 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
               <Image
                 src="/RDTC.png"
                 alt="Aero Service Logo"
-                width={130}
-                height={130}
+                width={100}
+                height={100}
                 priority
-                className="h-16 w-auto sm:h-20 scale-130"
+                className="h-16 w-auto sm:h-20"
               />
 
               <h1 className="runway-code text-3xl leading-tight pr-10 font-bold text-white sm:text-4xl lg:text-5xl">

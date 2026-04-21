@@ -1,14 +1,7 @@
 import type { ReactNode } from "react";
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
+import { StatCardProps } from "./dashboard.interfaces";
 
-interface StatCardProps {
-  label: string;
-  value: string | number;
-  change: string;
-  isPositive: boolean;
-  icon: ReactNode;
-  iconTone?: "blue" | "emerald" | "amber" | "violet";
-}
 
 export default function StatCard({
   label,
