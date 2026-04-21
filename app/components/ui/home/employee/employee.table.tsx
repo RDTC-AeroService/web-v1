@@ -1,14 +1,19 @@
+import { FaRegEye } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 import { EmployeeRow, EmployeeStatus } from "./employee.interfaces";
-import { ChevronDown } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 
-function EmployeeTable(
-    { filteredEmployees, statusTone }: {
-        filteredEmployees: EmployeeRow[];
-        statusTone: Record<EmployeeStatus, string>;
-    }
-) {
+function EmployeeTable({
+  filteredEmployees,
+  statusTone,
+}: {
+  filteredEmployees: EmployeeRow[];
+  statusTone: Record<EmployeeStatus, string>;
+}) {
+  const router = useRouter();
+
   return (
-    <table className="min-w-full border-collapse text-left">
+    <table className="min-w-full border-collapse text-left overflow-hidden">
       <thead>
         <tr className="border-b border-(--line)/50 text-xs font-semibold uppercase tracking-wide text-(--foreground)/55">
           <th className="px-3 py-4">Employee ID</th>
@@ -25,7 +30,7 @@ function EmployeeTable(
         {filteredEmployees.map((employee) => (
           <tr
             key={employee.id}
-            className="border-b border-(--line)/35 text-sm text-(--ink) transition hover:bg-white/70"
+            className="border-b border-(--line)/35 text-sm text-(--ink) transition hover:bg-(--line)/10"
           >
             <td className="px-3 py-4 font-semibold text-(--ink)">
               <div className="flex items-center gap-3">
@@ -56,13 +61,39 @@ function EmployeeTable(
             <td className="px-3 py-4 text-(--foreground)/80">
               {employee.phone}
             </td>
-            <td className="px-3 py-4 text-right">
+            <td className="px-3 py-4 flex gap-2 justify-end text-right">
               <button
                 type="button"
-                className="runway-btn-secondary inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-(--ink)"
+                aria-label={`View details for ${employee.name}`}
+                title={`View details for ${employee.name}`}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 text-gray-700 transition hover:-translate-y-0.5 hover:bg-sky-100 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+                onClick={() => {
+                  const params = new URLSearchParams({
+                    section: "employee",
+                    view: "detail",
+                    employeeId: employee.id,
+                    name: employee.name,
+                    position: employee.position,
+                    department: employee.department,
+                    employmentType: employee.employmentType,
+                    status: employee.status,
+                    phone: employee.phone,
+                    avatar: employee.avatar,
+                    initials: employee.initials,
+                  });
+
+                  router.push(`/pages/home?${params.toString()}`);
+                }}
               >
-                View
-                <ChevronDown className="h-4 w-4 text-(--foreground)/55" />
+                <FaRegEye aria-hidden="true" className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                aria-label={`Delete ${employee.name}`}
+                title={`Delete ${employee.name}`}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 text-gray-700 transition hover:-translate-y-0.5 hover:bg-rose-100 hover:shadow-sm hover:text-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300"
+              >
+                <Trash2Icon aria-hidden="true" className="h-4 w-4" />
               </button>
             </td>
           </tr>

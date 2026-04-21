@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   ChevronDown,
   Download,
@@ -21,33 +22,6 @@ import {
   EmploymentType,
   StatsCardProps,
 } from "@/app/components/ui/home/employee/employee.interfaces";
-
-const stats = [
-  {
-    label: "Total Employees",
-    value: "350",
-    tone: "blue",
-    icon: <BriefcaseBusiness className="h-5 w-5" />,
-  },
-  {
-    label: "Full-Time",
-    value: "275",
-    tone: "emerald",
-    icon: <CircleCheckBig className="h-5 w-5" />,
-  },
-  {
-    label: "On Leave",
-    value: "8",
-    tone: "amber",
-    icon: <Clock3 className="h-5 w-5" />,
-  },
-  {
-    label: "Inactive",
-    value: "15",
-    tone: "rose",
-    icon: <UserX className="h-5 w-5" />,
-  },
-] as const satisfies StatsCardProps[];
 
 const employees: EmployeeRow[] = [
   {
@@ -292,6 +266,39 @@ const employees: EmployeeRow[] = [
   },
 ];
 
+const stats = [
+  {
+    label: "Total Employees",
+    value: employees.length.toString(),
+    tone: "blue",
+    icon: <BriefcaseBusiness className="h-5 w-5" />,
+  },
+  {
+    label: "Full-Time",
+    value: employees
+      .filter((employee) => employee.employmentType === "Full-Time")
+      .length.toString(),
+    tone: "emerald",
+    icon: <CircleCheckBig className="h-5 w-5" />,
+  },
+  {
+    label: "On Leave",
+    value: employees
+      .filter((employee) => employee.status === "On Leave")
+      .length.toString(),
+    tone: "amber",
+    icon: <Clock3 className="h-5 w-5" />,
+  },
+  {
+    label: "Inactive",
+    value: employees
+      .filter((employee) => employee.status === "Inactive")
+      .length.toString(),
+    tone: "rose",
+    icon: <UserX className="h-5 w-5" />,
+  },
+] as const satisfies StatsCardProps[];
+
 const statusTone = {
   Active: "bg-emerald-100 text-emerald-700",
   "On Leave": "bg-amber-100 text-amber-700",
@@ -299,6 +306,7 @@ const statusTone = {
 } as const;
 
 function EmployeeLayout() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [employmentFilter, setEmploymentFilter] = useState<
     "All Times" | EmploymentType
@@ -369,6 +377,33 @@ function EmployeeLayout() {
     }
   }, [currentPage, totalPages]);
 
+  const exportData = () => {
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      ["ID,Name,Position,Department,Employment Type,Status,Phone"]
+        .concat(
+          filteredEmployees.map((e) =>
+            [
+              e.id,
+              e.name,
+              e.position,
+              e.department,
+              e.employmentType,
+              e.status,
+              e.phone,
+            ].join(","),
+          ),
+        )
+        .join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "employees.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -386,13 +421,13 @@ function EmployeeLayout() {
             label="Add Employee"
             className="runway-btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-white"
             icon={<UserPlus className="h-4 w-4" />}
-            onClick={() => console.log("Add Employee clicked")}
+            onClick={() => router.push("/pages/home?section=employee&view=add")}
           />
           <ButtonIcon
             label="Export"
             className="runway-btn-secondary inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-(--ink)"
             icon={<Download className="h-4 w-4" />}
-            onClick={() => console.log("Export clicked")}
+            onClick={exportData}
           />
         </div>
       </div>
