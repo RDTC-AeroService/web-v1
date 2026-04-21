@@ -1,4 +1,5 @@
 import { AttendanceChart } from "@/app/components/ui/home/dashboard/attendance-chart";
+import PayrollChart from "@/app/components/ui/home/dashboard/payroll-chart";
 import StatCard from "@/app/components/ui/home/dashboard/stat-card";
 import { FaGraduationCap, FaPeopleGroup, FaSackDollar } from "react-icons/fa6";
 import { MdEventNote } from "react-icons/md";
@@ -66,6 +67,11 @@ function DashboardLayout() {
       {/* Attendance Overview */}
       <div className="relative">
         <AttendanceChart />
+      </div>
+
+      {/* Payroll Overview */}
+      <div className="mt-8">
+        <PayrollChart />
       </div>
     </div>
   );

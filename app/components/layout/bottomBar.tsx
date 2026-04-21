@@ -1,31 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  MdSpaceDashboard,
-  MdPeople,
-  MdCalendarToday,
-  MdReceipt,
-  MdAttachMoney,
-  MdSchool,
-  MdPerson,
-} from "react-icons/md";
+import { useRouter, useSearchParams } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
-
-const menuItems = [
-  { icon: <MdSpaceDashboard />, label: "Dashboard", path: "/pages/home" },
-  { icon: <MdPeople />, label: "Employee", path: "/pages/home" },
-  { icon: <MdCalendarToday />, label: "Attendance", path: "/pages/home" },
-  { icon: <MdReceipt />, label: "Report", path: "/pages/home" },
-  { icon: <MdAttachMoney />, label: "Payroll", path: "/pages/home" },
-  { icon: <MdSchool />, label: "Training", path: "/pages/home" },
-  { icon: <MdPerson />, label: "Profile", path: "/pages/home" },
-];
+import { normalizeSection } from "../../pages/home/section-config";
+import { MenuItems } from "./menu.routes";
 
 export default function BottomBar() {
-  const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeSection = normalizeSection(
+    searchParams.get("section") ?? undefined,
+  );
 
   const handleLogout = () => {
     router.push("/pages/auth");
@@ -37,8 +23,8 @@ export default function BottomBar() {
       className="fixed inset-x-0 bottom-0 z-50 border-t border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(240,246,253,0.98))] px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_36px_-28px_rgba(16,36,58,0.55)] backdrop-blur-xl lg:hidden"
     >
       <div className="mx-auto flex w-full max-w-3xl items-stretch gap-2 overflow-x-auto rounded-3xl border border-white/80 bg-white/75 p-2">
-        {menuItems.map((item) => {
-          const isActive = pathname === item.path;
+        {MenuItems.map((item) => {
+          const isActive = activeSection === item.key;
 
           return (
             <Link

@@ -1,30 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import {
-  MdSpaceDashboard,
-  MdPeople,
-  MdCalendarToday,
-  MdReceipt,
-  MdAttachMoney,
-  MdSchool,
-  MdPerson,
-} from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
-
-const menuItems = [
-  { icon: <MdSpaceDashboard />, label: "Dashboard", path: "/pages/home" },
-  { icon: <MdPeople />, label: "Employee", path: "/pages/home" },
-  { icon: <MdCalendarToday />, label: "Attendance", path: "/pages/home" },
-  { icon: <MdReceipt />, label: "Report", path: "/pages/home" },
-  { icon: <MdAttachMoney />, label: "Master Payroll", path: "/pages/home" },
-  { icon: <MdSchool />, label: "Training", path: "/pages/home" },
-  { icon: <MdPerson />, label: "Profile", path: "/pages/home" },
-];
+import { normalizeSection } from "../../pages/home/section-config";
+import { MenuItems } from "./menu.routes";
 
 export default function Sidebar() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeSection = normalizeSection(
+    searchParams.get("section") ?? undefined,
+  );
 
   const handleLogout = () => {
     router.push("/pages/auth");
@@ -52,11 +39,11 @@ export default function Sidebar() {
         {/* Navigation Menu */}
         <nav className="flex-1 overflow-y-auto px-6 py-2 mt-5">
           <ul className="space-y-1">
-            {menuItems.map((item, idx) => {
-              const isActive = idx === 0;
+            {MenuItems.map((item) => {
+              const isActive = item.key === activeSection;
 
               return (
-                <li key={idx}>
+                <li key={item.key}>
                   <Link
                     href={item.path}
                     className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all ${
