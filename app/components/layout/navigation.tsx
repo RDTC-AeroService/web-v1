@@ -7,7 +7,7 @@ export default function NavigationBar() {
     <header className="sticky top-0 z-40 border-b border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(247,250,255,0.8))] backdrop-blur-xl shadow-[0_18px_38px_-34px_rgba(16,36,58,0.48)]">
       <div className="w-full px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="relative min-w-0 flex-1 basis-full sm:basis-auto md:w-full xl:max-w-xl 2xl:max-w-2xl border border-gray-300 bg-white/80 rounded-2xl shadow-[0_14px_28px_-24px_rgba(16,36,58,0.5)] transition focus-within:border-blue-300 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-200/60">
+          <div className="relative min-w-0 flex-1  w-1/2  border border-gray-300 bg-white/80 rounded-2xl shadow-[0_14px_28px_-24px_rgba(16,36,58,0.5)] transition focus-within:border-blue-300 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-200/60">
             <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-(--foreground)/45" />
             <input
               type="text"
@@ -30,8 +30,12 @@ export default function NavigationBar() {
               type="button"
               className="flex min-w-0 items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-2.5 py-2.5 text-left shadow-[0_14px_28px_-24px_rgba(16,36,58,0.5)] transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-white sm:gap-3 sm:px-3"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-blue-500 via-blue-600 to-cyan-500 text-sm font-bold text-white shadow-lg shadow-blue-500/20">
-                JK
+              <div className="flex h-10 w-10 overflow-hidden items-center justify-center rounded-xl bg-linear-to-br from-blue-500 via-blue-600 to-cyan-500 text-sm font-bold text-white shadow-lg shadow-blue-500/20">
+                <img
+                  src="https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/15329653/Jon_snow.0.1536999998.jpg?quality=90&strip=all&crop=7.8125,0,84.375,100"
+                  className="w-full h-full object-cover"
+                  alt="Profile Image"
+                />
               </div>
 
               <div className="hidden min-w-0 md:block">
