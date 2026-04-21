@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  ChevronDown,
   Download,
   UserPlus,
   BriefcaseBusiness,
@@ -22,6 +21,7 @@ import {
   EmploymentType,
   StatsCardProps,
 } from "@/app/components/ui/home/employee/employee.interfaces";
+import { exportEmployeesData } from "@/app/utils/exportCSV";
 
 const employees: EmployeeRow[] = [
   {
@@ -377,32 +377,7 @@ function EmployeeLayout() {
     }
   }, [currentPage, totalPages]);
 
-  const exportData = () => {
-    const csvContent =
-      "data:text/csv;charset=utf-8," +
-      ["ID,Name,Position,Department,Employment Type,Status,Phone"]
-        .concat(
-          filteredEmployees.map((e) =>
-            [
-              e.id,
-              e.name,
-              e.position,
-              e.department,
-              e.employmentType,
-              e.status,
-              e.phone,
-            ].join(","),
-          ),
-        )
-        .join("\n");
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "employees.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  
 
   return (
     <div className="space-y-6">
@@ -427,7 +402,7 @@ function EmployeeLayout() {
             label="Export"
             className="runway-btn-secondary inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-(--ink)"
             icon={<Download className="h-4 w-4" />}
-            onClick={exportData}
+            onClick={() => exportEmployeesData("employees.csv", employees)}
           />
         </div>
       </div>
