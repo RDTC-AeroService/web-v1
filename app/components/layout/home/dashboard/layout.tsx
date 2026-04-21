@@ -44,9 +44,9 @@ function DashboardLayout() {
     <div>
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-(--ink)">Dashboard</h1>
-        {/* <p className="text-(--foreground)/70 mt-2">
+        <p className="text-(--foreground)/70 mt-2">
           Welcome back, John! Here's what's happening with your team.
-        </p> */}
+        </p>
       </div>
 
       {/* Stats Grid */}
