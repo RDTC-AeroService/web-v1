@@ -283,6 +283,14 @@ body {
   animation-delay: 2.3s;
 }
 
+.auth-message-panel-in {
+  animation: authMessageIn 0.26s ease-out both;
+}
+
+.auth-message-panel-out {
+  animation: authMessageOut 0.22s ease-in forwards;
+}
+
 .runway-fade-up {
   opacity: 0;
   animation: runwayReveal 0.8s ease-out forwards;
@@ -347,6 +355,28 @@ body {
   }
   50% {
     transform: translateY(-14px) scale(1.05);
+  }
+}
+
+@keyframes authMessageIn {
+  from {
+    opacity: 0;
+    transform: translateX(28px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes authMessageOut {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px) scale(0.98);
   }
 }
 

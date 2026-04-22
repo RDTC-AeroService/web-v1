@@ -1,24 +1,76 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { pageRoutes } from "@/app/router";
+import { authService } from "@/app/services/auth/auth.service";
 
-export default function LoginUI() {
+type LoginUIProps = {
+  onErrorChange?: (message: string) => void;
+};
+
+export default function LoginUI({ onErrorChange }: LoginUIProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+  const setLoginError = (message: string) => {
+    setError(message);
+    onErrorChange?.(message);
+  };
+
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoginError("");
 
-    if (email.trim() && password.trim()) {
-      router.push(pageRoutes.home.path);
+    if (!email.trim() || !password.trim()) {
+      setLoginError("Please enter both email/username and password.");
       return;
     }
 
-    setError("Please enter both email/username and password.");
+    try {
+      setIsSubmitting(true);
+
+      const response = await authService.login(email.trim(), password);
+      const token = response?.access_token ?? response?.token;
+
+      if (!token) {
+        setLoginError("Login failed: token was not returned by the server.");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+      setLoginError("");
+      router.push(pageRoutes.home.path);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const status = err.response?.status;
+        const message =
+          (err.response?.data as { message?: string })?.message ?? "";
+
+        if (status === 401) {
+          setLoginError("Invalid email/username or password.");
+          return;
+        }
+
+        if (status === 400) {
+          setLoginError(message || "Please check your input and try again.");
+          return;
+        }
+
+        setLoginError(
+          message || "Unable to login right now. Please try again.",
+        );
+        return;
+      }
+
+      setLoginError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -65,8 +117,6 @@ export default function LoginUI() {
           />
         </div>
 
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
-
         <div className="flex items-center justify-between gap-3 text-sm">
           <label className="inline-flex items-center gap-2 text-[rgba(11,31,47,0.78)]">
             <input
@@ -85,9 +135,10 @@ export default function LoginUI() {
 
         <button
           type="submit"
-          className="runway-btn-primary w-full rounded-xl py-3 text-sm font-semibold sm:text-base"
+          disabled={isSubmitting}
+          className="runway-btn-primary w-full rounded-xl py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-70 sm:text-base"
         >
-          Sign In
+          {isSubmitting ? "Signing in..." : "Sign In"}
         </button>
       </form>
     </div>

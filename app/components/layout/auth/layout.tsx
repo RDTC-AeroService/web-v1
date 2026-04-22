@@ -1,13 +1,26 @@
 import { ReactNode } from "react";
 import Image from "next/image";
+import MessagePanel from "../../ui/auth/message.panel";
 
 type AuthLayoutProps = {
   children: ReactNode;
+  loginError?: string;
+  onClearLoginError?: () => void;
 };
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export default function AuthLayout({
+  children,
+  loginError,
+  onClearLoginError,
+}: AuthLayoutProps) {
   return (
-    <main className="auth-page flex justify-center items-center relative min-h-screen overflow-hidden px-4 py-8 sm:px-8 md:py-12">
+    <main className="relative auth-page flex justify-center items-center min-h-screen overflow-hidden px-4 py-8 sm:px-8 md:py-12">
+      {loginError ? (
+        <MessagePanel
+          loginError={loginError}
+          onClearLoginError={onClearLoginError}
+        />
+      ) : null}
       <div className="auth-orb auth-orb-left pointer-events-none" />
       <div className="auth-orb auth-orb-right pointer-events-none" />
 
@@ -55,4 +68,4 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       </section>
     </main>
   );
-};
+}
