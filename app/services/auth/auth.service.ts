@@ -1,17 +1,33 @@
-import apiClient from '@/lib/axios';
+import apiClient from "@/lib/axios";
+
+type LoginResponse = {
+  access_token?: string;
+  token?: string;
+};
+
+type AuthUser = {
+  id?: string | number;
+  username?: string;
+  email?: string;
+  role?: string;
+  [key: string]: unknown;
+};
 
 export const authService = {
-  login: async (email: string, password: string) => {
-    const { data } = await apiClient.post('/auth/login', { email, password });
-    return data; // { access_token: '...' }
+  login: async (username: string, password: string): Promise<LoginResponse> => {
+    const { data } = await apiClient.post("/auth/login", {
+      username,
+      password,
+    });
+    return data;
   },
 
-  register: async (email: string, password: string) => {
-    const { data } = await apiClient.post('/auth/register', { email, password });
+  getMe: async (): Promise<AuthUser> => {
+    const { data } = await apiClient.get("/auth/me");
     return data;
   },
 
   logout: () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   },
 };
