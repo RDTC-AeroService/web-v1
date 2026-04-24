@@ -10,15 +10,39 @@ type LoginUIProps = {
   onErrorChange?: (message: string) => void;
 };
 
+const getApiErrorMessage = (data: unknown): string => {
+  if (typeof data === "string") {
+    return data;
+  }
+
+  if (!data || typeof data !== "object") {
+    return "";
+  }
+
+  const record = data as { message?: unknown; error?: unknown };
+
+  if (Array.isArray(record.message)) {
+    return record.message.join(", ");
+  }
+
+  if (typeof record.message === "string") {
+    return record.message;
+  }
+
+  if (typeof record.error === "string") {
+    return record.error;
+  }
+
+  return "";
+};
+
 export default function LoginUI({ onErrorChange }: LoginUIProps) {
   const router = useRouter();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setLoginError = (message: string) => {
-    setError(message);
     onErrorChange?.(message);
   };
 
@@ -33,8 +57,10 @@ export default function LoginUI({ onErrorChange }: LoginUIProps) {
 
     try {
       setIsSubmitting(true);
-
-      const response = await authService.authenticate({username: identifier.trim(), password});
+      const response = await authService.authenticate({
+        username: identifier.trim(),
+        password: password.trim(),
+      });
       const token = response?.accessToken;
 
       if (!token) {
@@ -48,8 +74,14 @@ export default function LoginUI({ onErrorChange }: LoginUIProps) {
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const status = err.response?.status;
-        const message =
-          (err.response?.data as { message?: string })?.message ?? "";
+        const message = getApiErrorMessage(err.response?.data);
+
+        if (!err.response) {
+          setLoginError(
+            "Can't connect to the server",
+          );
+          return;
+        }
 
         if (status === 401) {
           setLoginError("Invalid email/username or password.");
@@ -57,12 +89,19 @@ export default function LoginUI({ onErrorChange }: LoginUIProps) {
         }
 
         if (status === 400) {
-          setLoginError(message || "Please check your input and try again.");
+          setLoginError("Please check your input and try again.");
+          return;
+        }
+
+        if (status === 404) {
+          setLoginError("Login endpoint was not found (404)",
+          );
           return;
         }
 
         setLoginError(
-          message || "Unable to login right now. Please try again.",
+          message ||
+            `Login failed with status ${status ?? "unknown"}. Please try again.`,
         );
         return;
       }

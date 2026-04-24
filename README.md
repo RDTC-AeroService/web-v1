@@ -67,8 +67,10 @@ Create `frontend/.env.local` for local environment configuration.
 Example:
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:3000/api
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
+
+With this value, calling `/auth/login` from Axios resolves to `http://localhost:3000/auth/login`.
 
 Notes:
 
@@ -116,4 +118,3 @@ General flow:
 2. Commit changes: `git commit -m "Add your feature"`
 3. Push branch: `git push origin feature/your-feature`
 4. Open a pull request.
-

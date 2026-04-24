@@ -4,10 +4,10 @@ import axios from "axios";
 const isBrowser = typeof window !== "undefined";
 
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
+  baseURL: process.env.API_URL || "http://localhost:3000",
   timeout: 10000,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json", 
   },
 });
 
