@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import axios from "axios";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { pageRoutes } from "@/app/router";
 import { authService } from "@/app/services/auth/auth.service";
 
@@ -22,70 +22,70 @@ export default function LoginUI({ onErrorChange }: LoginUIProps) {
     onErrorChange?.(message);
   };
 
-  // const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   setLoginError("");
-
-  //   if (!identifier.trim() || !password.trim()) {
-  //     setLoginError("Please enter both email/username and password.");
-  //     return;
-  //   }
-
-  //   try {
-  //     setIsSubmitting(true);
-
-  //     const response = await authService.login(identifier.trim(), password);
-  //     const token = response?.access_token ?? response?.token;
-
-  //     if (!token) {
-  //       setLoginError("Login failed: token was not returned by the server.");
-  //       return;
-  //     }
-
-  //     localStorage.setItem("token", token);
-  //     setLoginError("");
-  //     router.push(pageRoutes.home.path);
-  //   } catch (err) {
-  //     if (axios.isAxiosError(err)) {
-  //       const status = err.response?.status;
-  //       const message =
-  //         (err.response?.data as { message?: string })?.message ?? "";
-
-  //       if (status === 401) {
-  //         setLoginError("Invalid email/username or password.");
-  //         return;
-  //       }
-
-  //       if (status === 400) {
-  //         setLoginError(message || "Please check your input and try again.");
-  //         return;
-  //       }
-
-  //       setLoginError(
-  //         message || "Unable to login right now. Please try again.",
-  //       );
-  //       return;
-  //     }
-
-  //     const unknownMessage =
-  //       err instanceof Error
-  //         ? err.message
-  //         : "Something went wrong. Please try again.";
-  //     setLoginError(unknownMessage);
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoginError("");
 
-    if (identifier.trim() || password.trim()) {
-      router.push(pageRoutes.home.path);
+    if (!identifier.trim() || !password.trim()) {
+      setLoginError("Please enter both email/username and password.");
       return;
     }
-  }
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await authService.login(identifier.trim(), password);
+      const token = response?.access_token ?? response?.token;
+
+      if (!token) {
+        setLoginError("Login failed: token was not returned by the server.");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+      setLoginError("");
+      router.push(pageRoutes.home.path);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const status = err.response?.status;
+        const message =
+          (err.response?.data as { message?: string })?.message ?? "";
+
+        if (status === 401) {
+          setLoginError("Invalid email/username or password.");
+          return;
+        }
+
+        if (status === 400) {
+          setLoginError(message || "Please check your input and try again.");
+          return;
+        }
+
+        setLoginError(
+          message || "Unable to login right now. Please try again.",
+        );
+        return;
+      }
+
+      const unknownMessage =
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.";
+      setLoginError(unknownMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   setLoginError("");
+
+  //   if (identifier.trim() || password.trim()) {
+  //     router.push(pageRoutes.home.path);
+  //     return;
+  //   }
+  // }
 
   return (
     <div className="auth-fade-in space-y-6">
