@@ -22,282 +22,110 @@ import {
   StatsCardProps,
 } from "@/app/components/ui/home/employee/employee.interfaces";
 import { exportEmployeesData } from "@/app/utils/exportCSV";
+import {
+  employeeService,
+  PaginatedResponse,
+} from "@/app/services/employee.service";
+import { Employee } from "@/app/shared/types/employee.type";
 
-const employees: EmployeeRow[] = [
-  {
-    id: "EMP001",
-    name: "John Smith",
-    position: "Pilot",
-    department: "Flight Operations",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2001",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
-    initials: "JS",
-  },
-  {
-    id: "EMP002",
-    name: "Jane Doe",
-    position: "Flight Attendant",
-    department: "Cabin Crew",
-    employmentType: "Full-Time",
-    status: "On Leave",
-    phone: "(555) 013-2002",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80",
-    initials: "JD",
-  },
-  {
-    id: "EMP003",
-    name: "Robert Johnson",
-    position: "Engineer",
-    department: "Maintenance",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2003",
-    avatar:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80",
-    initials: "RJ",
-  },
-  {
-    id: "EMP004",
-    name: "Alice White",
-    position: "HR Manager",
-    department: "HR",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2004",
-    avatar:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=160&q=80",
-    initials: "AW",
-  },
-  {
-    id: "EMP005",
-    name: "Ben Wilson",
-    position: "Cleaner",
-    department: "Environments",
-    employmentType: "Part-Time",
-    status: "Active",
-    phone: "(555) 013-2005",
-    avatar:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80",
-    initials: "BW",
-  },
-  {
-    id: "EMP006",
-    name: "Lisa Park",
-    position: "Accountant",
-    department: "Finance",
-    employmentType: "Part-Time",
-    status: "Inactive",
-    phone: "(555) 013-2006",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80",
-    initials: "LP",
-  },
-  {
-    id: "EMP007",
-    name: "Alex Brown",
-    position: "Pilot",
-    department: "Flight Operations",
-    employmentType: "Contract",
-    status: "Active",
-    phone: "(555) 013-2007",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
-    initials: "AB",
-  },
-  {
-    id: "EMP008",
-    name: "Michael Lee",
-    position: "Instructor",
-    department: "Training",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2008",
-    avatar:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=160&q=80",
-    initials: "ML",
-  },
-  {
-    id: "EMP009",
-    name: "Sofia Carter",
-    position: "Cabin Supervisor",
-    department: "Cabin Crew",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2009",
-    avatar:
-      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=160&q=80",
-    initials: "SC",
-  },
-  {
-    id: "EMP010",
-    name: "Daniel Kim",
-    position: "Dispatcher",
-    department: "Operations Control",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2010",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80",
-    initials: "DK",
-  },
-  {
-    id: "EMP011",
-    name: "Nina Patel",
-    position: "Analyst",
-    department: "Finance",
-    employmentType: "Contract",
-    status: "On Leave",
-    phone: "(555) 013-2011",
-    avatar:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=160&q=80",
-    initials: "NP",
-  },
-  {
-    id: "EMP012",
-    name: "Omar Hussein",
-    position: "Ground Operations Lead",
-    department: "Ground Support",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2012",
-    avatar:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=160&q=80",
-    initials: "OH",
-  },
-  {
-    id: "EMP013",
-    name: "Emily Johnson",
-    position: "Safety Officer",
-    department: "Compliance",
-    employmentType: "Part-Time",
-    status: "Active",
-    phone: "(555) 013-2013",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80",
-    initials: "EJ",
-  },
-  {
-    id: "EMP014",
-    name: "Carlos Rivera",
-    position: "Aircraft Technician",
-    department: "Maintenance",
-    employmentType: "Full-Time",
-    status: "Inactive",
-    phone: "(555) 013-2014",
-    avatar:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80",
-    initials: "CR",
-  },
-  {
-    id: "EMP015",
-    name: "Hannah Brooks",
-    position: "Recruiter",
-    department: "HR",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2015",
-    avatar:
-      "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=160&q=80",
-    initials: "HB",
-  },
-  {
-    id: "EMP016",
-    name: "David Nguyen",
-    position: "Systems Engineer",
-    department: "IT",
-    employmentType: "Contract",
-    status: "Active",
-    phone: "(555) 013-2016",
-    avatar:
-      "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=160&q=80",
-    initials: "DN",
-  },
-  {
-    id: "EMP017",
-    name: "Priya Shah",
-    position: "Training Coordinator",
-    department: "Training",
-    employmentType: "Full-Time",
-    status: "On Leave",
-    phone: "(555) 013-2017",
-    avatar:
-      "https://images.unsplash.com/photo-1550525811-e5869dd03032?auto=format&fit=crop&w=160&q=80",
-    initials: "PS",
-  },
-  {
-    id: "EMP018",
-    name: "Ethan Walker",
-    position: "Fleet Manager",
-    department: "Operations",
-    employmentType: "Full-Time",
-    status: "Active",
-    phone: "(555) 013-2018",
-    avatar:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80",
-    initials: "EW",
-  },
-  {
-    id: "EMP019",
-    name: "Mia Thompson",
-    position: "Customer Support Lead",
-    department: "Support",
-    employmentType: "Part-Time",
-    status: "Active",
-    phone: "(555) 013-2019",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
-    initials: "MT",
-  },
-  {
-    id: "EMP020",
-    name: "Lucas Martin",
-    position: "Logistics Coordinator",
-    department: "Supply Chain",
-    employmentType: "Contract",
-    status: "Inactive",
-    phone: "(555) 013-2020",
-    avatar:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=160&q=80",
-    initials: "LM",
-  },
-];
+const DEFAULT_AVATAR =
+  "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=160&q=80";
 
-const stats = [
-  {
-    label: "Total Employees",
-    value: employees.length.toString(),
-    tone: "blue",
-    icon: <BriefcaseBusiness className="h-5 w-5" />,
-  },
-  {
-    label: "Full-Time",
-    value: employees
-      .filter((employee) => employee.employmentType === "Full-Time")
-      .length.toString(),
-    tone: "emerald",
-    icon: <CircleCheckBig className="h-5 w-5" />,
-  },
-  {
-    label: "On Leave",
-    value: employees
-      .filter((employee) => employee.status === "On Leave")
-      .length.toString(),
-    tone: "amber",
-    icon: <Clock3 className="h-5 w-5" />,
-  },
-  {
-    label: "Inactive",
-    value: employees
-      .filter((employee) => employee.status === "Inactive")
-      .length.toString(),
-    tone: "rose",
-    icon: <UserX className="h-5 w-5" />,
-  },
-] as const satisfies StatsCardProps[];
+const toEmployeeStatus = (value: unknown): EmployeeStatus => {
+  const normalized = String(value ?? "").toLowerCase();
+
+  if (normalized.includes("leave")) {
+    return "On Leave";
+  }
+
+  if (normalized.includes("inactive") || normalized.includes("disabled")) {
+    return "Inactive";
+  }
+
+  return "Active";
+};
+
+const toEmploymentType = (value: unknown): EmploymentType => {
+  const normalized = String(value ?? "").toLowerCase();
+
+  if (normalized.includes("part")) {
+    return "Part-Time";
+  }
+
+  if (normalized.includes("contract")) {
+    return "Contract";
+  }
+
+  return "Full-Time";
+};
+
+const toInitials = (fullName: string): string => {
+  const segments = fullName.trim().split(/\s+/).filter(Boolean).slice(0, 2);
+
+  if (segments.length === 0) {
+    return "NA";
+  }
+
+  return segments.map((segment) => segment[0]?.toUpperCase() ?? "").join("");
+};
+
+const toEmployeeRow = (employee: Employee): EmployeeRow => {
+  console.log("Raw employee data:", employee);
+  const record = employee as unknown as Record<string, unknown>;
+  const user = (record.user as Record<string, unknown> | undefined) ?? {};
+
+  const firstName = String(record.firstName ?? record.first_name ?? "").trim();
+  const lastName = String(record.lastName ?? record.last_name ?? "").trim();
+  const fallbackFullName =
+    `${firstName} ${lastName}`.trim() || "Unknown Employee";
+  const username = String(user.username ?? "").trim();
+  const fullName = fallbackFullName;
+  const id = String(
+    record.employeeId ??
+      record.employee_id ??
+      record.userId ??
+      record.user_id ??
+      "",
+  ).trim();
+
+  const rawPosition = record.position;
+  const position =
+    typeof rawPosition === "string"
+      ? rawPosition
+      : String(
+          (rawPosition as Record<string, unknown> | null)?.positionName ??
+            (rawPosition as Record<string, unknown> | null)?.position_name ??
+            "Unknown Position",
+        );
+
+  const department = String(
+    record.department ??
+      (rawPosition as Record<string, unknown> | null)?.departmentName ??
+      (
+        (rawPosition as Record<string, unknown> | null)?.department as
+          | Record<string, unknown>
+          | undefined
+      )?.departmentName ??
+      record.department_name ??
+      "Unknown Department",
+  );
+
+  const avatar = String(user.avatar || DEFAULT_AVATAR).trim();
+
+  return {
+    id: id || fullName,
+    name: fullName,
+    position,
+    department,
+    employmentType: toEmploymentType(
+      record.employmentType ?? record.employment_type,
+    ),
+    status: toEmployeeStatus(record.status),
+    phone: String(record.phone ?? "N/A"),
+    avatar,
+    initials: username,
+  };
+};
 
 const statusTone = {
   Active: "bg-emerald-100 text-emerald-700",
@@ -307,6 +135,9 @@ const statusTone = {
 
 function EmployeeLayout() {
   const router = useRouter();
+  const [employees, setEmployees] = useState<EmployeeRow[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [employmentFilter, setEmploymentFilter] = useState<
     "All Times" | EmploymentType
@@ -318,15 +149,93 @@ function EmployeeLayout() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchEmployees = async () => {
+      try {
+        const response = await employeeService.list({
+          page: 1,
+          limit: 500,
+        });
+
+        if (!isMounted) {
+          return;
+        }
+
+        const rows = Array.isArray(response)
+          ? response
+          : (response as PaginatedResponse<Employee>).data;
+
+        setEmployees(rows.map((row) => toEmployeeRow(row)));
+        setLoadError("");
+      } catch {
+        if (!isMounted) {
+          return;
+        }
+
+        setEmployees([]);
+        setLoadError("Unable to load employees right now.");
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void fetchEmployees();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const stats = useMemo(
+    () =>
+      [
+        {
+          label: "Total Employees",
+          value: employees.length.toString(),
+          tone: "blue",
+          icon: <BriefcaseBusiness className="h-5 w-5" />,
+        },
+        {
+          label: "Full-Time",
+          value: employees
+            .filter((employee) => employee.employmentType === "Full-Time")
+            .length.toString(),
+          tone: "emerald",
+          icon: <CircleCheckBig className="h-5 w-5" />,
+        },
+        {
+          label: "On Leave",
+          value: employees
+            .filter((employee) => employee.status === "On Leave")
+            .length.toString(),
+          tone: "amber",
+          icon: <Clock3 className="h-5 w-5" />,
+        },
+        {
+          label: "Inactive",
+          value: employees
+            .filter((employee) => employee.status === "Inactive")
+            .length.toString(),
+          tone: "rose",
+          icon: <UserX className="h-5 w-5" />,
+        },
+      ] as const satisfies StatsCardProps[],
+    [employees],
+  );
+
   const positionOptions = useMemo(() => {
     return Array.from(
       new Set(employees.map((employee) => employee.position)),
     ).sort();
-  }, []);
+  }, [employees]);
 
   const statusOptions = useMemo(() => {
     return Array.from(new Set(employees.map((employee) => employee.status)));
-  }, []);
+  }, [employees]);
 
   const filteredEmployees = useMemo(() => {
     return employees.filter((employee) => {
@@ -355,29 +264,49 @@ function EmployeeLayout() {
         matchesSearch && matchesEmployment && matchesPosition && matchesStatus
       );
     });
-  }, [employmentFilter, positionFilter, searchTerm, statusFilter]);
+  }, [employees, employmentFilter, positionFilter, searchTerm, statusFilter]);
 
   const totalPages = Math.max(
     1,
     Math.ceil(filteredEmployees.length / pageSize),
   );
 
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+
   const pagedEmployees = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
+    const startIndex = (safeCurrentPage - 1) * pageSize;
     return filteredEmployees.slice(startIndex, startIndex + pageSize);
-  }, [currentPage, filteredEmployees]);
+  }, [filteredEmployees, safeCurrentPage]);
 
-  useEffect(() => {
+  const handleSearchTermChange = (value: string) => {
     setCurrentPage(1);
-  }, [employmentFilter, positionFilter, searchTerm, statusFilter]);
+    setSearchTerm(value);
+  };
 
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [currentPage, totalPages]);
+  const handleEmploymentFilterChange = (
+    value: "All Times" | EmploymentType,
+  ) => {
+    setCurrentPage(1);
+    setEmploymentFilter(value);
+  };
 
-  
+  const handlePositionFilterChange = (value: string) => {
+    setCurrentPage(1);
+    setPositionFilter(value);
+  };
+
+  const handleStatusFilterChange = (value: "All Statuses" | EmployeeStatus) => {
+    setCurrentPage(1);
+    setStatusFilter(value);
+  };
+
+  const handleClearFilters = () => {
+    setCurrentPage(1);
+    setSearchTerm("");
+    setEmploymentFilter("All Times");
+    setPositionFilter("All Positions");
+    setStatusFilter("All Statuses");
+  };
 
   return (
     <div className="space-y-6">
@@ -428,35 +357,46 @@ function EmployeeLayout() {
           statusFilter={statusFilter}
           positionOptions={positionOptions}
           statusOptions={statusOptions}
-          onSearchTermChange={setSearchTerm}
-          onEmploymentFilterChange={setEmploymentFilter}
-          onPositionFilterChange={setPositionFilter}
-          onStatusFilterChange={setStatusFilter}
-          onClearFilters={() => {
-            setSearchTerm("");
-            setEmploymentFilter("All Times");
-            setPositionFilter("All Positions");
-            setStatusFilter("All Statuses");
-          }}
+          onSearchTermChange={handleSearchTermChange}
+          onEmploymentFilterChange={handleEmploymentFilterChange}
+          onPositionFilterChange={handlePositionFilterChange}
+          onStatusFilterChange={handleStatusFilterChange}
+          onClearFilters={handleClearFilters}
         />
 
-        <div className="overflow-x-auto">
-          <EmployeeTable
-            filteredEmployees={pagedEmployees}
-            statusTone={statusTone}
-          />
-        </div>
-
-        <NumberPagenation
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-
-        {filteredEmployees.length === 0 ? (
-          <div className="py-12 text-center text-sm text-(--foreground)/65">
-            No employees match your current search.
+        {isLoading ? (
+          <div className="py-10 text-center text-sm text-(--foreground)/65">
+            Loading employees...
           </div>
+        ) : null}
+
+        {loadError ? (
+          <div className="py-4 text-sm font-medium text-rose-600">
+            {loadError}
+          </div>
+        ) : null}
+
+        {!isLoading && !loadError ? (
+          <>
+            <div className="overflow-x-auto">
+              <EmployeeTable
+                filteredEmployees={pagedEmployees}
+                statusTone={statusTone}
+              />
+            </div>
+
+            <NumberPagenation
+              currentPage={safeCurrentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+
+            {filteredEmployees.length === 0 ? (
+              <div className="py-12 text-center text-sm text-(--foreground)/65">
+                No employees match your current search.
+              </div>
+            ) : null}
+          </>
         ) : null}
       </div>
     </div>

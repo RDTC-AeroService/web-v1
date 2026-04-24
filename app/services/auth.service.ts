@@ -16,7 +16,9 @@ export const authService = {
   },
 
   getMe: async (): Promise<SignInData> => {
-    const { data } = await apiClient.get("/auth/me");
+    const { data } = await apiClient.get("/auth/me", {
+      headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`,},
+    });
     return data;
   },
 
