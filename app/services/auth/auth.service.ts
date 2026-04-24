@@ -10,7 +10,6 @@ type AuthUser = {
   username?: string;
   email?: string;
   role?: string;
-  [key: string]: unknown;
 };
 
 export const authService = {
