@@ -1,4 +1,5 @@
-import { UserRole, UserStatus } from 'src/generated/prisma/enums';
+import { UserRole } from "../enums/role.enum";
+import { UserStatus } from "../enums/status.enum";
 
 export interface User {
   userId: number;
@@ -35,6 +36,8 @@ export type AuthResult = {
   userId: number;
   username: string;
   role: UserRole;
+  tokenType: string;
+  issuedAt: number;
 };
 
 export type SeedUser = {

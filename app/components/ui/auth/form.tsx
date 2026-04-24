@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { pageRoutes } from "@/app/router";
-import { authService } from "@/app/services/auth/auth.service";
+import { authService } from "@/app/services/auth.service";
 
 type LoginUIProps = {
   onErrorChange?: (message: string) => void;
@@ -34,8 +34,8 @@ export default function LoginUI({ onErrorChange }: LoginUIProps) {
     try {
       setIsSubmitting(true);
 
-      const response = await authService.login(identifier.trim(), password);
-      const token = response?.access_token ?? response?.token;
+      const response = await authService.authenticate({username: identifier.trim(), password});
+      const token = response?.accessToken;
 
       if (!token) {
         setLoginError("Login failed: token was not returned by the server.");
