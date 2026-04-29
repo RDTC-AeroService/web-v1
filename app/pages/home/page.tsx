@@ -1,3 +1,5 @@
+"use client";
+
 import Sidebar from "../../components/layout/sidebar";
 import NavigationBar from "../../components/layout/navigation";
 import DashboardLayout from "../../components/layout/home/dashboard/layout";
@@ -10,6 +12,7 @@ import ReportLayout from "../../components/layout/home/report/layout";
 import TrainingLayout from "../../components/layout/home/trainning/layout";
 import ProfileLayout from "../../components/layout/home/profile/layout";
 import BottomBar from "../../components/layout/bottomBar";
+import { useSearchParams } from "next/navigation";
 import { normalizeSection, type SectionKey } from "./section-config";
 
 const getSectionLayout = (section: SectionKey, view?: string) => {
@@ -40,45 +43,29 @@ const getSectionLayout = (section: SectionKey, view?: string) => {
   }
 };
 
-export default function HomePage({
-  searchParams,
-}: {
-  searchParams?: Promise<{
-    section?: string | string[];
-    view?: string | string[];
-  }>;
-}) {
-  const paramsPromise =
-    searchParams ??
-    Promise.resolve<{ section?: string | string[]; view?: string | string[] }>(
-      {},
-    );
+export default function HomeContent() {
+  const searchParams = useSearchParams();
+  const activeSection = normalizeSection(searchParams.get("section") ?? undefined);
+  const activeView = searchParams.get("view") ?? undefined;
 
-  return paramsPromise.then((params) => {
-    const activeSection = normalizeSection(params.section);
-    const activeView = Array.isArray(params.view)
-      ? params.view[0]
-      : params.view;
+  return (
+    <div className="flex min-h-screen bg-background">
+      {/* Sidebar */}
+      <Sidebar />
 
-    return (
-      <div className="flex min-h-screen bg-background">
-        {/* Sidebar */}
-        <Sidebar />
+      {/* Main Content */}
+      <div className="min-h-screen flex-1 lg:ml-64">
+        {/* Header */}
+        <NavigationBar />
 
-        {/* Main Content */}
-        <div className="min-h-screen flex-1 lg:ml-64">
-          {/* Header */}
-          <NavigationBar />
-
-          {/* Dashboard Content */}
-          <main className="p-4 pb-28 sm:p-6 sm:pb-32 lg:p-8 lg:pb-8">
-            {/* Page Title */}
-            {getSectionLayout(activeSection, activeView)}
-          </main>
-        </div>
-
-        <BottomBar />
+        {/* Dashboard Content */}
+        <main className="p-4 pb-28 sm:p-6 sm:pb-32 lg:p-8 lg:pb-8">
+          {/* Page Title */}
+          {getSectionLayout(activeSection, activeView)}
+        </main>
       </div>
-    );
-  });
+
+      <BottomBar />
+    </div>
+  );
 }

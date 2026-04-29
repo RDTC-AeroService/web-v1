@@ -1,15 +1,17 @@
+import { unauthorized } from "next/navigation";
+
 const pageRoutes = {
-  landing: {
-    name: "Landing",
-    path: "/",
-  },
   auth: {
-    name: "Authentication",
+    name: "Login",
     path: "/pages/auth",
   },
   home: {
     name: "Home",
     path: "/pages/home",
+  },
+  unauthorized: {
+    name: "Unauthorized",
+    path: "/pages/unauthorized",
   },
 };
 

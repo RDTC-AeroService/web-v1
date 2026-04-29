@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
 import { normalizeSection } from "../../pages/home/section-config";
 import { MenuItems } from "./menu.routes";
+import { pageRoutes } from "../../router";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -13,8 +14,9 @@ export default function Sidebar() {
     searchParams.get("section") ?? undefined,
   );
 
-  const handleLogout = () => {
-    router.push("/pages/auth");
+  const handleLogout = async () => {
+    localStorage.removeItem("token");
+    router.replace(pageRoutes.auth.path);
   };
 
   return (

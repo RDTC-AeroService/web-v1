@@ -13,8 +13,9 @@ export default function BottomBar() {
     searchParams.get("section") ?? undefined,
   );
 
-  const handleLogout = () => {
-    router.push("/pages/auth");
+  const handleLogout = async () => {
+    localStorage.removeItem("token");
+    router.replace("/login");
   };
 
   return (

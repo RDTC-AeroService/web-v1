@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 // import { Sora, Space_Mono } from "next/font/google";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "./context/authContext";
 
 // const sora = Sora({
 //   variable: "--font-sora",
@@ -42,9 +43,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sora.variable} ${spaceMono.variable} antialiased`}>
-        {children}
-      </body>
+      <AuthProvider>
+        <body className={`${sora.variable} ${spaceMono.variable} antialiased`}>
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   );
 }
