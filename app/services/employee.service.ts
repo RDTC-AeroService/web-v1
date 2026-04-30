@@ -4,6 +4,7 @@ import {
   Employee,
   SeedEmployee,
 } from "../shared/types/employee.type";
+import { count } from "console";
 
 const EMPLOYEE_BASE_PATH = "/employees";
 

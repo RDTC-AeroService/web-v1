@@ -38,23 +38,22 @@ export default function UnauthorizedPage() {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 sm:w-auto"
-          >
-            Go back
-          </button>
+        <div className="w-full">
+          <img
+            className="w-full h-full"
+            src="https://cdn.dribbble.com/userupload/21854119/file/original-afecdbdc3c639f275a25e90887f397ea.gif"
+            alt=""
+          />
+        </div>
 
+        <div className="w-full h-auto flex">
           <Link
             href="/pages/auth"
-            className="w-full rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 sm:ml-3 sm:w-auto text-center"
+            className="w-full rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 text-center"
           >
             Sign in
           </Link>
         </div>
-
         <div className="mt-6 text-sm text-slate-500">
           <p>
             If you believe this is a mistake, contact your administrator or try

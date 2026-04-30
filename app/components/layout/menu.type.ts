@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { SectionKey } from "../../pages/home/section-config";
+import type { SectionKey } from "../../pages/home/section.config";
 
 export type MenuItem = {
   icon: ReactNode;

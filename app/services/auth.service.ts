@@ -12,17 +12,23 @@ export const authService = {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+
     return data;
   },
 
   getMe: async (): Promise<SignInData> => {
     const { data } = await apiClient.get("/auth/me", {
-      headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`,},
+      withCredentials: true,
     });
+
     return data;
   },
 
-  logout: () => {
+  logout: async (): Promise<void> => {
+    await apiClient.post("/auth/logout", {}, { withCredentials: true });
+
+    document.cookie = "token=; path=/; max-age=0";
+
     localStorage.removeItem("token");
   },
 };

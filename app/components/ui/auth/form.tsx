@@ -69,6 +69,7 @@ export default function LoginUI({ onErrorChange }: LoginUIProps) {
       }
 
       localStorage.setItem("token", token);
+      cookieStore.set("token", token);
       setLoginError("");
       router.push(pageRoutes.home.path);
     } catch (err) {

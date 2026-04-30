@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
-import { normalizeSection } from "../../pages/home/section-config";
+import { normalizeSection } from "../../pages/home/section.config";
 import { MenuItems } from "./menu.routes";
 
 export default function BottomBar() {
@@ -15,6 +15,7 @@ export default function BottomBar() {
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
+    cookieStore.delete("token");
     router.replace("/login");
   };
 
